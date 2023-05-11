@@ -1,4 +1,5 @@
 use pyo3::prelude::*;
+use rand::Rng;
 
 #[pyfunction]
 fn str_len(a: &str) -> PyResult<usize> {
@@ -26,6 +27,23 @@ fn array (array_input: Vec<i64>) -> PyResult<Vec<i64>>{
 
 }
 
+#[pyfunction]
+fn randint (low: isize, high: isize) -> PyResult<isize>{
+    let num = rand::thread_rng().gen_range(low..high);
+    Ok(num)
+}
+
+#[pyfunction]
+fn linspace(start: f64, stop: f64, num_steps: usize) -> PyResult<Vec<f64>> {
+    let step_size = (stop - start) / ((num_steps - 1) as f64);
+    let mut values = Vec::with_capacity(num_steps);
+    for i in 0..num_steps {
+        values.push(start + (i as f64) * step_size);
+    }
+    Ok(values)
+}
+
+
 #[pymodule]
 #[pyo3(name = "numpyrust")]
 fn rust_len_py(_py: Python, m: &PyModule) -> PyResult<()> {
@@ -33,5 +51,7 @@ fn rust_len_py(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(round, m)?)?;
     m.add_function(wrap_pyfunction!(cbrt, m)?)?;
     m.add_function(wrap_pyfunction!(array, m)?)?;
+    m.add_function(wrap_pyfunction!(randint, m)?)?;
+    m.add_function(wrap_pyfunction!(linspace, m)?)?;
     Ok(())
 }
