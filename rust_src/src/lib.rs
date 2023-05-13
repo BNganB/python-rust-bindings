@@ -43,15 +43,22 @@ fn linspace(start: f64, stop: f64, num_steps: usize) -> PyResult<Vec<f64>> {
     Ok(values)
 }
 
+#[pyfunction]
+fn equal(arr1: Vec<f64>, arr2: Vec<f64>) -> PyResult<Vec<bool>> {
+    assert_eq!(arr1.len(), arr2.len(), "Arrays must have the same length");
+    Ok(arr1.iter().zip(arr2.iter()).map(|(&x, &y)| x == y).collect())
+}
+
 
 #[pymodule]
 #[pyo3(name = "numpyrust")]
-fn rust_len_py(_py: Python, m: &PyModule) -> PyResult<()> {
+fn all_funcs(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(str_len, m)?)?;
     m.add_function(wrap_pyfunction!(round, m)?)?;
     m.add_function(wrap_pyfunction!(cbrt, m)?)?;
     m.add_function(wrap_pyfunction!(array, m)?)?;
     m.add_function(wrap_pyfunction!(randint, m)?)?;
     m.add_function(wrap_pyfunction!(linspace, m)?)?;
+    m.add_function(wrap_pyfunction!(equal, m)?)?;
     Ok(())
 }
