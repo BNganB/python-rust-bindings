@@ -1,5 +1,8 @@
 use pyo3::prelude::*;
 use rand::Rng;
+use std::fs::File;
+use std::io::prelude::*;
+use std::io::BufReader;
 
 #[pyfunction]
 fn str_len(a: &str) -> PyResult<usize> {
@@ -49,6 +52,24 @@ fn equal(arr1: Vec<f64>, arr2: Vec<f64>) -> PyResult<Vec<bool>> {
     Ok(arr1.iter().zip(arr2.iter()).map(|(&x, &y)| x == y).collect())
 }
 
+#[pyfunction]
+fn read_file(file_name: &str) -> PyResult<String> {
+    let mut file = File::open(file_name)?;
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)?;
+    Ok(contents)
+}
+
+#[pyfunction]
+//buffered reader implementation to test speed difference
+fn read_file_v2(file_name: &str) -> PyResult<String> {
+    let file = File::open(file_name)?;
+    let mut buf_reader = BufReader::new(file);
+    let mut contents = String::new();
+    buf_reader.read_to_string(&mut contents)?;
+    Ok(contents)
+}
+
 
 #[pymodule]
 #[pyo3(name = "numpyrust")]
@@ -60,5 +81,7 @@ fn all_funcs(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(randint, m)?)?;
     m.add_function(wrap_pyfunction!(linspace, m)?)?;
     m.add_function(wrap_pyfunction!(equal, m)?)?;
+    m.add_function(wrap_pyfunction!(read_file, m)?)?;
+    m.add_function(wrap_pyfunction!(read_file_v2, m)?)?;
     Ok(())
 }

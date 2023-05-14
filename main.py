@@ -14,6 +14,8 @@ step = 10
 vec1 = [1, 2, 3, 4]
 vec2 = [1, 2, 0, 4]
 
+file_name = "test.txt"
+
 
 def generate_array(TEST_ARRAY_LEN):
     global TEST_ARRAY
@@ -27,7 +29,7 @@ def timer(func):
         result = func(*args, **kwargs)
         end_time = time.time()
         print(f"{func.__name__} took {(end_time - start_time)*1000} ms to run")
-        print(f"\n{func.__name__} Result = {result}\n")
+        #print(f"{func.__name__} Result = {result}\n")
         return result
     return wrapper
 
@@ -67,15 +69,29 @@ def rust_linspace(start, stop, step):
 @timer
 def rust_equal(vec1, vec2):
     return numpyrust.equal(vec1, vec2)
+#   ~2x faster
 
 
 @timer
 def c_equal(vec1, vec2):
     return np.equal(vec1, vec2)
 
+@timer
+def rust_open(file_name):
+    return numpyrust.read_file(file_name)
 
+@timer
+def rust_open_v2(file_name):
+    return numpyrust.read_file_v2(file_name)
+
+@timer
+def c_open(file_name):
+    with open(file_name, "r") as file:
+        return file.read()
+    
 
 
 if __name__ == "__main__":
-    rust_equal(vec1, vec2)
-    c_equal(vec1, vec2)
+    rust_open(file_name)
+    rust_open_v2(file_name)
+    c_open(file_name)
