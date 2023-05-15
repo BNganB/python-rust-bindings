@@ -70,6 +70,11 @@ fn read_file_v2(file_name: &str) -> PyResult<String> {
     Ok(contents)
 }
 
+#[pyfunction]
+fn abs(num: i32) -> PyResult<i32> {
+    Ok(i32::abs(num))
+}
+
 
 #[pymodule]
 #[pyo3(name = "numpyrust")]
@@ -83,5 +88,6 @@ fn all_funcs(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(equal, m)?)?;
     m.add_function(wrap_pyfunction!(read_file, m)?)?;
     m.add_function(wrap_pyfunction!(read_file_v2, m)?)?;
+    m.add_function(wrap_pyfunction!(abs, m)?)?;
     Ok(())
 }

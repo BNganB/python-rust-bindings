@@ -7,6 +7,7 @@ TEST_ARRAY_LEN = 10000
 TEST_START = 0
 TEST_STOP = 1000000000000000000
 TEST_ARRAY = []
+TEST_NEG = -10
 
 start = 0
 stop = 20
@@ -89,9 +90,18 @@ def c_open(file_name):
     with open(file_name, "r") as file:
         return file.read()
     
+@timer
+def c_abs(TEST_NEG):
+    return abs(TEST_NEG)
+
+@timer
+def rust_abs(TEST_NEG):
+    return numpyrust.abs(TEST_NEG)
+
+
+    
 
 
 if __name__ == "__main__":
-    rust_open(file_name)
-    rust_open_v2(file_name)
-    c_open(file_name)
+    c_abs(TEST_NEG)
+    rust_abs(TEST_NEG)
