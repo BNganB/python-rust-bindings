@@ -7,7 +7,7 @@ TEST_ARRAY_LEN = 10000
 TEST_START = 0
 TEST_STOP = 1000000000000000000
 TEST_ARRAY = []
-TEST_NEG = -10
+TEST_NEG = -1.245346234
 
 start = 0
 stop = 20
@@ -97,10 +97,7 @@ def c_abs(TEST_NEG):
 @timer
 def rust_abs(TEST_NEG):
     return numpyrust.abs(TEST_NEG)
-
-
-    
-
+#   Runs twice as fast as c code
 
 if __name__ == "__main__":
     c_abs(TEST_NEG)

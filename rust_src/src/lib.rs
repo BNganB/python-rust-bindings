@@ -69,10 +69,9 @@ fn read_file_v2(file_name: &str) -> PyResult<String> {
     buf_reader.read_to_string(&mut contents)?;
     Ok(contents)
 }
-
 #[pyfunction]
-fn abs(num: i32) -> PyResult<i32> {
-    Ok(i32::abs(num))
+fn abs(num: f64) -> PyResult<f64> {
+    Ok(f64::abs(num))
 }
 
 
