@@ -99,6 +99,8 @@ def rust_abs(TEST_NEG):
     return numpyrust.abs(TEST_NEG)
 #   Runs twice as fast as c code
 
+
+
 if __name__ == "__main__":
     c_abs(TEST_NEG)
     rust_abs(TEST_NEG)

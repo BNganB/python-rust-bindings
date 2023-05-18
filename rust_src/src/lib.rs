@@ -31,7 +31,7 @@ fn array (array_input: Vec<i64>) -> PyResult<Vec<i64>>{
 }
 
 #[pyfunction]
-fn randint (low: isize, high: isize) -> PyResult<isize>{
+fn randint(low: isize, high: isize) -> PyResult<isize>{
     let num = rand::thread_rng().gen_range(low..high);
     Ok(num)
 }
@@ -90,3 +90,27 @@ fn all_funcs(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(abs, m)?)?;
     Ok(())
 }
+
+
+// TODO
+/*
+fn main() -> PyResult<()> {
+    let functions: Vec<fn(Python, str) -> usize> = vec![
+    str_len,
+    round,
+    cbrt,
+    array,
+    randint,
+    linspace,
+    equal,
+    read_file,
+    read_file_v2,
+    abs,
+    ];
+
+    for function in functions {
+        m.add_function(wrap_pyfunction!(function, m)?)?;
+    }
+}
+
+*/
