@@ -1,3 +1,7 @@
+dynamic lib can be found here: ```lib/numpyrust.so```
+
+and can be imported with ```from lib import numpyrust```
+
 # TODO
 clean up double funcs
 
