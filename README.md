@@ -1,14 +1,3 @@
-# simple-numpy-rust-bindings
-
-test project for remapping C --> Rust bindings in Python
-
-main.py = import speed test env
-
 # TODO
-finish array func
-
-linspace
-
-uniform samples
-
-random.randint rewrite??
+clean up double funcs
+create type func for iteration under main
