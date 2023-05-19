@@ -1,12 +1,12 @@
 [package]
-name = "simple-numpy-rust-bindings"
+name = "rusted"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
-name = "numpyrust"
+name = "rusted"
 crate-type = ["cdylib"]
 
 [dependencies]

@@ -1,4 +1,4 @@
-from lib import numpyrust
+from lib import rusted
 import numpy as np
 import random
 import time
@@ -37,7 +37,7 @@ def timer(func):
 
 @timer
 def rust_array(TEST_ARRAY):
-    return numpyrust.array(TEST_ARRAY)
+    return rusted.array(TEST_ARRAY)
     # consistently faster than c past 5 fig. len generation
 
 
@@ -48,7 +48,7 @@ def c_numpy_array(TEST_ARRAY):
 
 @timer
 def rust_randint(start, stop):
-    return numpyrust.randint(start, stop)
+    return rusted.randint(start, stop)
     # WHY ARE YOU SLOWER
 
 
@@ -64,12 +64,12 @@ def c_linspace(start, stop, step):
 
 @timer
 def rust_linspace(start, stop, step):
-    return numpyrust.linspace(start, stop, step)
+    return rusted.linspace(start, stop, step)
 
 
 @timer
 def rust_equal(vec1, vec2):
-    return numpyrust.equal(vec1, vec2)
+    return rusted.equal(vec1, vec2)
 #   ~2x faster
 
 
@@ -79,11 +79,11 @@ def c_equal(vec1, vec2):
 
 @timer
 def rust_open(file_name):
-    return numpyrust.read_file(file_name)
+    return rusted.read_file(file_name)
 
 @timer
 def rust_open_v2(file_name):
-    return numpyrust.read_file_v2(file_name)
+    return rusted.read_file_v2(file_name)
 
 @timer
 def c_open(file_name):
@@ -96,7 +96,7 @@ def c_abs(TEST_NEG):
 
 @timer
 def rust_abs(TEST_NEG):
-    return numpyrust.abs(TEST_NEG)
+    return rusted.abs(TEST_NEG)
 #   Runs twice as fast as c code
 
 

@@ -1,4 +1,5 @@
 use pyo3::prelude::*;
+use pyo3::wrap_pyfunction;
 use rand::Rng;
 use std::fs::File;
 use std::io::prelude::*;
@@ -10,35 +11,34 @@ fn str_len(a: &str) -> PyResult<usize> {
 }
 
 #[pyfunction]
-fn round(a: f64) -> PyResult<usize>{
+fn round(a: f64) -> PyResult<usize> {
     Ok(a.round() as usize)
 }
 
 #[pyfunction]
-fn cbrt(a: f64) -> PyResult<f64>{
+fn cbrt(a: f64) -> PyResult<f64> {
     Ok(a.cbrt())
 }
 
 #[pyfunction]
-fn array (array_input: Vec<i64>) -> PyResult<Vec<i64>>{
+fn array(array_input: Vec<i64>) -> PyResult<Vec<i64>> {
     let x: usize = array_input.len();
     let mut vec = Vec::with_capacity(x);
-    for i in 0..x{
+    for i in 0..x {
         vec.push(array_input[i]);
     }
     Ok(vec)
-
 }
 
 #[pyfunction]
-fn randint(low: isize, high: isize) -> PyResult<isize>{
+fn randint(low: isize, high: isize) -> PyResult<isize> {
     let num = rand::thread_rng().gen_range(low..high);
     Ok(num)
 }
 
 #[pyfunction]
 fn linspace(start: f64, stop: f64, num_steps: usize) -> PyResult<Vec<f64>> {
-    let step_size = (stop - start) / ((num_steps - 1) as f64);
+    let step_size: f64 = (stop - start) / ((num_steps - 1) as f64);
     let mut values = Vec::with_capacity(num_steps);
     for i in 0..num_steps {
         values.push(start + (i as f64) * step_size);
@@ -61,7 +61,7 @@ fn read_file(file_name: &str) -> PyResult<String> {
 }
 
 #[pyfunction]
-//buffered reader implementation to test speed difference
+// buffered reader implementation to test speed difference
 fn read_file_v2(file_name: &str) -> PyResult<String> {
     let file = File::open(file_name)?;
     let mut buf_reader = BufReader::new(file);
@@ -69,15 +69,13 @@ fn read_file_v2(file_name: &str) -> PyResult<String> {
     buf_reader.read_to_string(&mut contents)?;
     Ok(contents)
 }
+
 #[pyfunction]
 fn abs(num: f64) -> PyResult<f64> {
     Ok(f64::abs(num))
 }
 
-
-#[pymodule]
-#[pyo3(name = "numpyrust")]
-fn all_funcs(_py: Python, m: &PyModule) -> PyResult<()> {
+fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(str_len, m)?)?;
     m.add_function(wrap_pyfunction!(round, m)?)?;
     m.add_function(wrap_pyfunction!(cbrt, m)?)?;
@@ -91,26 +89,9 @@ fn all_funcs(_py: Python, m: &PyModule) -> PyResult<()> {
     Ok(())
 }
 
-
-// TODO
-/*
-fn main() -> PyResult<()> {
-    let functions: Vec<fn(Python, str) -> usize> = vec![
-    str_len,
-    round,
-    cbrt,
-    array,
-    randint,
-    linspace,
-    equal,
-    read_file,
-    read_file_v2,
-    abs,
-    ];
-
-    for function in functions {
-        m.add_function(wrap_pyfunction!(function, m)?)?;
-    }
+#[pymodule]
+#[pyo3(name = "rusted")]
+fn rusted(_py: Python, m: &PyModule) -> PyResult<()> {
+    add_functions(m)?;
+    Ok(())
 }
-
-*/
