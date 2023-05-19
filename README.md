@@ -1,14 +1,11 @@
 dynamic lib can be found here:
 ```bash
-lib/numpyrust.so
+lib/rusted.so
 ```
 
 and can be imported with python
 ```python
-from lib import numpyrust
+from lib import rusted
 ```
 
-# TODO
-clean up double funcs
-
-create type func for iteration under main
+#TODO
