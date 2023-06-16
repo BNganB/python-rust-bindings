@@ -4,6 +4,7 @@ use rand::Rng;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
+use std::time::{Duration, Instant};
 
 #[pyfunction]
 fn str_len(a: &str) -> PyResult<usize> {
@@ -60,8 +61,10 @@ fn read_file(file_name: &str) -> PyResult<String> {
     Ok(contents)
 }
 
-#[pyfunction]
+
 // buffered reader implementation to test speed difference
+#[pyfunction]
+//&str -> &PyUnicode for less conversion
 fn read_file_v2(file_name: &str) -> PyResult<String> {
     let file = File::open(file_name)?;
     let mut buf_reader = BufReader::new(file);
@@ -75,6 +78,23 @@ fn abs(num: f64) -> PyResult<f64> {
     Ok(f64::abs(num))
 }
 
+
+#[pyfunction]
+fn timer_wrapper(_py: Python, func: &PyAny) -> PyResult<()> {
+    let start_time = Instant::now();
+
+    func.call0()?;
+
+    let end_time = Instant::now();
+    let duration = end_time - start_time;
+    let duration_ms = duration.as_secs_f64() * 1000.0;
+
+    println!("Execution time: {:.2} ms", duration_ms);
+
+    Ok(())
+}
+
+
 fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(str_len, m)?)?;
     m.add_function(wrap_pyfunction!(round, m)?)?;
@@ -86,6 +106,7 @@ fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(read_file, m)?)?;
     m.add_function(wrap_pyfunction!(read_file_v2, m)?)?;
     m.add_function(wrap_pyfunction!(abs, m)?)?;
+    m.add_function(wrap_pyfunction!(timer_wrapper, m)?)?;
     Ok(())
 }
 

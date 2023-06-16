@@ -1,4 +1,6 @@
+#   Windows fix .pyd, remove if breaks linux build
 from lib import rusted
+#from lib import rusted //ONLY WORKS ON LINUX
 import numpy as np
 import random
 import time
@@ -30,7 +32,7 @@ def timer(func):
         result = func(*args, **kwargs)
         end_time = time.time()
         print(f"{func.__name__} took {(end_time - start_time)*1000} ms to run")
-        #print(f"{func.__name__} Result = {result}\n")
+        print(f"{func.__name__} Result = {result}\n")
         return result
     return wrapper
 
@@ -94,11 +96,11 @@ def c_open(file_name):
 def c_abs(TEST_NEG):
     return abs(TEST_NEG)
 
-@timer
+@rusted.timer_wrapper
+#broken, check type passed? don't do this in python?
 def rust_abs(TEST_NEG):
     return rusted.abs(TEST_NEG)
 #   Runs twice as fast as c code
-
 
 
 if __name__ == "__main__":
