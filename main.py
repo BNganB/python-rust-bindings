@@ -1,5 +1,5 @@
 #   Rename .dll to .pyd to fix import issue on Windows
-#   .so for unix systems
+#   .so for unix systems, leave untouched
 from lib import rusted
 import numpy as np
 import random
