@@ -14,3 +14,4 @@ from lib import rusted
 - read_file_v2: Reads the contents of a file using a buffered reader and returns it as a string.
 - abs: Calculates the absolute value of a number.
 - timer_wrapper: Wraps a Python function with a timer and measures its execution time.
+- triangular_number: Calculates the triangular number of a given integer.
