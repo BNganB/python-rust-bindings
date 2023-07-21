@@ -80,7 +80,7 @@ fn abs(num: f64) -> PyResult<f64> {
 
 
 #[pyfunction]
-fn timer_wrapper(_py: Python, func: &PyAny) -> PyResult<()> {
+fn timer_wrapper(_py: Python, func: &PyAny) -> PyResult<String> {
     let start_time = Instant::now();
 
     func.call0()?;
@@ -89,9 +89,29 @@ fn timer_wrapper(_py: Python, func: &PyAny) -> PyResult<()> {
     let duration = end_time - start_time;
     let duration_ms = duration.as_secs_f64() * 1000.0;
 
-    println!("Execution time: {:.2} ms", duration_ms);
+    let result = format!("Execution time: {:.2} ms", duration_ms);
 
-    Ok(())
+    Ok(result)
+}
+
+#[pyfunction]
+fn triangular_number(input_num: isize) -> PyResult<isize> {
+    if input_num <= 0 {
+        // positive only check
+        return Err(pyo3::exceptions::PyValueError::new_err(
+            "Input number must be a positive integer.",
+        ));
+    }
+
+    let mut i = input_num;
+    let mut result = 0;
+
+    while i != 0 {
+        result += i;
+        i -= 1;
+    }
+
+    Ok(result)
 }
 
 
@@ -107,6 +127,7 @@ fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(read_file_v2, m)?)?;
     m.add_function(wrap_pyfunction!(abs, m)?)?;
     m.add_function(wrap_pyfunction!(timer_wrapper, m)?)?;
+    m.add_function(wrap_pyfunction!(triangular_number, m)?)?;
     Ok(())
 }
 

@@ -1,6 +1,6 @@
-#   Windows fix .pyd, remove if breaks linux build
+#   Rename .dll to .pyd to fix import issue on Windows
+#   .so for unix systems
 from lib import rusted
-#from lib import rusted //ONLY WORKS ON LINUX
 import numpy as np
 import random
 import time
@@ -96,13 +96,35 @@ def c_open(file_name):
 def c_abs(TEST_NEG):
     return abs(TEST_NEG)
 
+@timer
+def rust_triangular(int):
+    return rusted.triangular_number(int)
+
+@timer
+def python_triangular(input_num):
+    if input_num <= 0:
+        return "Input number must be a positive integer"
+    
+    i = input_num
+    result = 0
+
+    while i != 0:
+        result += i
+        i -= 1
+    
+    return result
+
+"""
+
 @rusted.timer_wrapper
 #broken, check type passed? don't do this in python?
 def rust_abs(TEST_NEG):
     return rusted.abs(TEST_NEG)
 #   Runs twice as fast as c code
 
+"""
+
 
 if __name__ == "__main__":
-    c_abs(TEST_NEG)
-    rust_abs(TEST_NEG)
+    rust_triangular(1_000_000)
+    python_triangular(1_000_000)
