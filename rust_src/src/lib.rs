@@ -123,6 +123,17 @@ fn list_sort(mut input_list: Vec<isize>) -> PyResult<Vec<isize>> {
     Ok(input_list)
 }
 
+#[pyfunction]
+fn how_many_x_in_y(slice: &str, full: &str) -> PyResult<String> {
+    let matches = full.matches(slice).count();
+    if matches == 0 {
+        Ok("No matches found".to_string())
+    } else {
+        Ok(matches.to_string())
+    }
+}
+    
+
 
 fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(str_len, m)?)?;
@@ -138,6 +149,7 @@ fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(timer_wrapper, m)?)?;
     m.add_function(wrap_pyfunction!(triangular_number, m)?)?;
     m.add_function(wrap_pyfunction!(list_sort, m)?)?;
+    m.add_function(wrap_pyfunction!(how_many_x_in_y, m)?)?;
     Ok(())
 }
 

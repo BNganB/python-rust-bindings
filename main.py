@@ -4,6 +4,7 @@ from lib import rusted
 import numpy as np
 import random
 import time
+import string
 
 #test variables and functions
 
@@ -27,17 +28,15 @@ def generate_vec(len):
         vec.append(random.randint(0, 1_000))
     return vec
 
+def generate_string(str_len):
+    random_string = ""
+    for i in range(str_len):
+        random_string += random.choice(string.ascii_letters)
+    return random_string
 
 
 # actual functions
 
-
-
-
-def generate_array(TEST_ARRAY_LEN):
-    global TEST_ARRAY
-    for i in range(TEST_ARRAY_LEN):
-        TEST_ARRAY.append(random.randint(0, 9))
 
 
 def timer(func):
@@ -46,7 +45,7 @@ def timer(func):
         result = func(*args, **kwargs)
         end_time = time.time()
         print(f"{func.__name__} took {(end_time - start_time)*1000} ms to run")
-        #print(f"{func.__name__} Result = {result}\n")
+        print(f"{func.__name__} Result = {result}\n")
         return result
     return wrapper
 
@@ -141,6 +140,23 @@ def python_sort_vec(vec):
 def rust_sort_vec(vec):
     return rusted.list_sort(vec)
 
+@timer
+def python_how_many_x_in_y(slice, full):
+    match_amount = 0
+    try:
+        for slice in full:
+            match_amount += 1
+            return match_amount
+    except:
+        return f"No matches"
+    
+
+@timer
+def rust_how_many_x_in_y(slice, full):
+    return rusted.how_many_x_in_y(slice, full)
+
+
+
 """
 
 
@@ -155,8 +171,9 @@ def rust_abs(TEST_NEG):
 
 if __name__ == "__main__":
 
-    vector = generate_vec(1_000_000)
+    full = generate_string(1_000_000)
 
 
-    python_sort_vec(vector)
-    rust_sort_vec(vector)
+
+    rust_how_many_x_in_y("uwu", full)
+    python_how_many_x_in_y("uwu", full)
