@@ -97,6 +97,10 @@ def c_abs(TEST_NEG):
     return abs(TEST_NEG)
 
 @timer
+def rust_abs(TEST_NEG):
+    return rusted.abs(TEST_NEG)
+
+@timer
 def rust_triangular(int):
     return rusted.triangular_number(int)
 
@@ -114,7 +118,17 @@ def python_triangular(input_num):
     
     return result
 
+@timer
+def python_sort_vec(vec):
+    return np.sort(vec)
+
+
+@timer
+def rust_sort_vec(vec):
+    return rusted.list_sort(vec)
+
 """
+
 
 @rusted.timer_wrapper
 #broken, check type passed? don't do this in python?
@@ -126,5 +140,5 @@ def rust_abs(TEST_NEG):
 
 
 if __name__ == "__main__":
-    rust_triangular(1_000_000)
-    python_triangular(1_000_000)
+    python_sort_vec(vec2)
+    rust_sort_vec(vec2)

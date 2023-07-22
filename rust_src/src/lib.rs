@@ -114,6 +114,16 @@ fn triangular_number(input_num: isize) -> PyResult<isize> {
     Ok(result)
 }
 
+#[pyfunction]
+fn list_sort(input_list: Vec<isize>) -> PyResult<Vec<isize>> {
+    
+    let mut rust_list: Vec<isize> = input_list;
+
+    rust_list.sort();
+
+    Ok(rust_list)
+
+}
 
 fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(str_len, m)?)?;
@@ -128,6 +138,7 @@ fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(abs, m)?)?;
     m.add_function(wrap_pyfunction!(timer_wrapper, m)?)?;
     m.add_function(wrap_pyfunction!(triangular_number, m)?)?;
+    m.add_function(wrap_pyfunction!(list_sort, m)?)?;
     Ok(())
 }
 
