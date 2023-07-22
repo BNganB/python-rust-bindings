@@ -1,5 +1,6 @@
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
+use pyo3::types::PyList;
 use rand::Rng;
 use std::fs::File;
 use std::io::prelude::*;
@@ -115,15 +116,13 @@ fn triangular_number(input_num: isize) -> PyResult<isize> {
 }
 
 #[pyfunction]
-fn list_sort(input_list: Vec<isize>) -> PyResult<Vec<isize>> {
-    
-    let mut rust_list: Vec<isize> = input_list;
+fn list_sort(mut input_list: Vec<isize>) -> PyResult<Vec<isize>> {
+    //performance still stucks, PyList method from docs doesnt work. Revisit?
+    input_list.sort();
 
-    rust_list.sort();
-
-    Ok(rust_list)
-
+    Ok(input_list)
 }
+
 
 fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(str_len, m)?)?;

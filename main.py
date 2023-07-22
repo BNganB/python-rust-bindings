@@ -5,6 +5,8 @@ import numpy as np
 import random
 import time
 
+#test variables and functions
+
 TEST_ARRAY_LEN = 10000
 TEST_START = 0
 TEST_STOP = 1000000000000000000
@@ -19,6 +21,18 @@ vec2 = [1, 2, 0, 4]
 
 file_name = "test.txt"
 
+def generate_vec(len):
+    vec = []
+    for i in range(len):
+        vec.append(random.randint(0, 1_000))
+    return vec
+
+
+
+# actual functions
+
+
+
 
 def generate_array(TEST_ARRAY_LEN):
     global TEST_ARRAY
@@ -32,7 +46,7 @@ def timer(func):
         result = func(*args, **kwargs)
         end_time = time.time()
         print(f"{func.__name__} took {(end_time - start_time)*1000} ms to run")
-        print(f"{func.__name__} Result = {result}\n")
+        #print(f"{func.__name__} Result = {result}\n")
         return result
     return wrapper
 
@@ -140,5 +154,9 @@ def rust_abs(TEST_NEG):
 
 
 if __name__ == "__main__":
-    python_sort_vec(vec2)
-    rust_sort_vec(vec2)
+
+    vector = generate_vec(1_000_000)
+
+
+    python_sort_vec(vector)
+    rust_sort_vec(vector)
