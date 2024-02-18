@@ -6,6 +6,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::time::{Duration, Instant};
+use serde::{Deserialize, Serialize};
 
 #[pyfunction]
 fn str_len(a: &str) -> PyResult<usize> {
@@ -132,8 +133,6 @@ fn how_many_x_in_y(slice: &str, full: &str) -> PyResult<String> {
         Ok(matches.to_string())
     }
 }
-    
-
 
 fn add_functions(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(str_len, m)?)?;
